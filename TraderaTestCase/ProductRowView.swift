@@ -2,8 +2,8 @@ import SwiftUI
 
 struct ProductRowView: View {
     let product: Product
-    let isFavourite: Bool
-    let onToggleFavourite: () -> Void
+    let isFavorite: Bool
+    let onToggleFavorite: () -> Void
 
     
     var body: some View {
@@ -29,9 +29,11 @@ struct ProductRowView: View {
             }
             Spacer()
 
-            Button(action: onToggleFavourite) {
-                Image(systemName: isFavourite ? "heart.fill" : "heart")
+            Button(action: onToggleFavorite) {
+                Image(systemName: isFavorite ? "heart.fill" : "heart")
             }
+            .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
+
         }
     }
 }

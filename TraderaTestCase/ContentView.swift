@@ -13,14 +13,14 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            // Displays each product as a row (image, title, price, favourite button).
+            // Displays each product as a row (image, title, price, favorite button).
             NavigationStack {
                 List(viewModel.products) { product in
                     ProductRowView(
                         product: product,
-                        isFavourite: viewModel.isFavourite(product),
-                        onToggleFavourite: {
-                            viewModel.toggleFavourite(for: product)
+                        isFavorite: viewModel.isFavorite(product),
+                        onToggleFavorite: {
+                            viewModel.toggleFavorite(for: product)
                         }
                     )
                 }
@@ -34,9 +34,9 @@ struct ContentView: View {
                 Label("Products", systemImage: "list.bullet")
             }
 
-            FavouritesListView(viewModel: viewModel)
+            FavoritesListView(viewModel: viewModel)
                 .tabItem {
-                    Label("Favourites", systemImage: "heart")
+                    Label("Favorites", systemImage: "heart")
                 }
         }
     }

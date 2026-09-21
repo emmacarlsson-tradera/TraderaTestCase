@@ -10,7 +10,17 @@ class ProductsViewModel: ObservableObject {
     @Published var products: [Product] = []
     
     //IDs for the products that have been marked as favorite.
-    @Published var favouriteIDs: Set<Int> = []
+    @Published var favoriteIDs: Set<Int> = []
+    
+    // Loads any previously saved favorites when the ViewModel is created, so favorites persist between app launches.
+    init() {
+        let savedIDs = UserDefaults.standard.array(forKey: favoritesKey) as? [Int] ?? []
+        favoriteIDs = Set(savedIDs)
+    }
+    
+    // The key used to save/load favorite IDs in UserDefaults.
+    private let favoritesKey = "favoriteIDs"
+
     
     // Gets products from Tradera´s API and saves them in "products".
     func fetchProducts() async {
@@ -28,23 +38,25 @@ class ProductsViewModel: ObservableObject {
 
     }
     
-    // A function that handles the favourites list by adding or removing objects from it.
-    func toggleFavourite(for product: Product) {
-        if favouriteIDs.contains(product.id) {
-            favouriteIDs.remove(product.id)
+    // Toggles a product's favorite status and saves the updated list to UserDefaults.
+    func toggleFavorite(for product: Product) {
+        if favoriteIDs.contains(product.id) {
+            favoriteIDs.remove(product.id)
         } else {
-            favouriteIDs.insert(product.id)
+            favoriteIDs.insert(product.id)
         }
+        UserDefaults.standard.set(Array(favoriteIDs), forKey: favoritesKey)
+
     }
     
-    // A function that keeps track of whether or not an object has already been added to the favourites list.
-    func isFavourite(_ product: Product) -> Bool {
-        favouriteIDs.contains(product.id)
+    // A function that keeps track of whether or not an object has already been added to the favorites list.
+    func isFavorite(_ product: Product) -> Bool {
+        favoriteIDs.contains(product.id)
     }
     
-    // Automatically computes a list of just the favorited products, based on "products" and "favouriteIDs".
-    var favouriteProducts: [Product] {
-        products.filter { favouriteIDs.contains($0.id) }
+    // Automatically computes a list of just the favorited products, based on "products" and "favoriteIDs".
+    var favoriteProducts: [Product] {
+        products.filter { favoriteIDs.contains($0.id) }
     }
 
     
