@@ -36,10 +36,15 @@ struct ContentView: View {
                 }
                 // Shows the tapped product's details in a sheet.
                 .sheet(item: $selectedProduct) { product in
-                    ProductDetailView(product: product)
+                    ProductDetailView(
+                        product: product,
+                        isFavorite: viewModel.isFavorite(product),
+                        onToggleFavorite: {
+                            viewModel.toggleFavorite(for: product)
+                        }
+                    )
                         .presentationDetents([.medium])
                         .presentationBackground(.ultraThinMaterial)
-                        .presentationCornerRadius(24)
                 }
 
             }

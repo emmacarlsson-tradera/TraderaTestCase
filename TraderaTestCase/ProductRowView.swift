@@ -25,10 +25,14 @@ struct ProductRowView: View {
                             EmptyView()
                         }
                     }
-                    .frame(width: 50, height: 50)
+                    .frame(width: 72, height: 72)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     VStack(alignment: .leading) {
                         Text(product.title)
+                            .font(.headline)
+                            .fontWeight(.bold)
                         Text("\(product.price) \(product.currency)")
+                            .foregroundStyle(.secondary)
                     }
                     Spacer()
                 }
@@ -38,6 +42,7 @@ struct ProductRowView: View {
 
             Button(action: onToggleFavorite) {
                 Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    .foregroundStyle(isFavorite ? .red : .primary)
             }
             .buttonStyle(.plain)
             .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
