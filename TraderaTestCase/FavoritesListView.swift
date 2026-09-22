@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FavoritesListView: View {
     @ObservedObject var viewModel: ProductsViewModel
+    @State private var selectedProduct: Product?
 
     var body: some View {
         NavigationStack {
@@ -13,8 +14,19 @@ struct FavoritesListView: View {
                         viewModel.toggleFavorite(for: product)
                     }
                 )
+                .onTapGesture {
+                    selectedProduct = product
+                }
+
             }
             .navigationTitle("Favorites")
+            .sheet(item: $selectedProduct) { product in
+                ProductDetailView(product: product)
+                    .presentationDetents([.medium])
+                    .presentationBackground(.ultraThinMaterial)
+                    .presentationCornerRadius(24)
+            }
+
         }
     }
 }

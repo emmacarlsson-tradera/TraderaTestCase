@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     // The main screen: fetches and displays the product list.
     @StateObject private var viewModel = ProductsViewModel()
+    
+    @State private var selectedProduct: Product?
 
     var body: some View {
         TabView {
@@ -23,12 +25,23 @@ struct ContentView: View {
                             viewModel.toggleFavorite(for: product)
                         }
                     )
+                    .onTapGesture {
+                        selectedProduct = product
+                    }
                 }
                 .navigationTitle("Products")
                 // Fetches the products from the API as soon as the view appears.
                 .task {
                     await viewModel.fetchProducts()
                 }
+                // Shows the tapped product's details in a sheet.
+                .sheet(item: $selectedProduct) { product in
+                    ProductDetailView(product: product)
+                        .presentationDetents([.medium])
+                        .presentationBackground(.ultraThinMaterial)
+                        .presentationCornerRadius(24)
+                }
+
             }
             .tabItem {
                 Label("Products", systemImage: "list.bullet")
