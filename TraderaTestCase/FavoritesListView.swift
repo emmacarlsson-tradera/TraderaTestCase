@@ -12,11 +12,11 @@ struct FavoritesListView: View {
                     isFavorite: viewModel.isFavorite(product),
                     onToggleFavorite: {
                         viewModel.toggleFavorite(for: product)
+                    },
+                    onSelect: {
+                        selectedProduct = product
                     }
                 )
-                .onTapGesture {
-                    selectedProduct = product
-                }
 
             }
             .navigationTitle("Favorites")

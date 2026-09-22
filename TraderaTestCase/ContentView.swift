@@ -23,11 +23,11 @@ struct ContentView: View {
                         isFavorite: viewModel.isFavorite(product),
                         onToggleFavorite: {
                             viewModel.toggleFavorite(for: product)
+                        },
+                        onSelect: {
+                            selectedProduct = product
                         }
                     )
-                    .onTapGesture {
-                        selectedProduct = product
-                    }
                 }
                 .navigationTitle("Products")
                 // Fetches the products from the API as soon as the view appears.
