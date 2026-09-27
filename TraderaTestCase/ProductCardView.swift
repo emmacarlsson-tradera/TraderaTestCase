@@ -13,7 +13,7 @@ struct ProductCardView: View {
             VStack(alignment: .leading, spacing: 0) {
                 // Kvadratisk vit yta som bilden ligger i, så att alla kort blir lika höga
                 // oavsett om omslaget är stående eller liggande.
-                Color.white
+                Color.traderaSurface
                     .aspectRatio(1, contentMode: .fit)
                     .overlay {
                         AsyncImage(url: URL(string: product.image)) { phase in
