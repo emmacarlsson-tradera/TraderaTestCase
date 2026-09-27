@@ -10,26 +10,49 @@ import SwiftUI
 struct ContentView: View {
     // The main screen: fetches and displays the product list.
     @StateObject private var viewModel = ProductsViewModel()
-    
+
     @State private var selectedProduct: Product?
+    @State private var searchText = ""
+
+    // Två lika breda kolumner med 12 punkters mellanrum.
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
+    // Produkterna som matchar sökfältet. Tomt sökfält betyder alla.
+    private var filteredProducts: [Product] {
+        guard !searchText.isEmpty else { return viewModel.products }
+        return viewModel.products.filter {
+            $0.title.localizedCaseInsensitiveContains(searchText)
+        }
+    }
 
     var body: some View {
         TabView {
-            // Displays each product as a row (image, title, price, favorite button).
+            // Displays each product as a card in a two column grid.
             NavigationStack {
-                List(viewModel.products) { product in
-                    ProductRowView(
-                        product: product,
-                        isFavorite: viewModel.isFavorite(product),
-                        onToggleFavorite: {
-                            viewModel.toggleFavorite(for: product)
-                        },
-                        onSelect: {
-                            selectedProduct = product
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 18) {
+                        ForEach(filteredProducts) { product in
+                            ProductCardView(
+                                product: product,
+                                isFavorite: viewModel.isFavorite(product),
+                                onToggleFavorite: {
+                                    viewModel.toggleFavorite(for: product)
+                                },
+                                onSelect: {
+                                    selectedProduct = product
+                                }
+                            )
                         }
-                    )
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.top, 8)
                 }
-                .navigationTitle("Products")
+                .background(Color.traderaBackground)
+                .navigationTitle("Produkter")
+                .searchable(text: $searchText, prompt: "Sök bland produkter")
                 // Fetches the products from the API as soon as the view appears.
                 .task {
                     await viewModel.fetchProducts()
@@ -49,14 +72,16 @@ struct ContentView: View {
 
             }
             .tabItem {
-                Label("Products", systemImage: "list.bullet")
+                Label("Produkter", systemImage: "square.grid.2x2")
             }
 
             FavoritesListView(viewModel: viewModel)
                 .tabItem {
-                    Label("Favorites", systemImage: "heart")
+                    Label("Bevakade", systemImage: "heart")
                 }
         }
+        // Ersätter iOS-blå i markerad flik och sökfält med Traderas nästan-svarta.
+        .tint(Color.traderaInk)
     }
 }
 
