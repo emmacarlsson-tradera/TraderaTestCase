@@ -14,7 +14,9 @@ struct ProductDetailView: View {
                     case .empty:
                         ProgressView()
                     case .success(let image):
-                        image.resizable()
+                        image
+                            .resizable()
+                            .scaledToFit()
                     case .failure:
                         Image(systemName: "photo")
                     @unknown default:
