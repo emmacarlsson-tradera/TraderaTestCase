@@ -29,14 +29,14 @@ struct ProductDetailView: View {
                     .font(.title2)
                     .bold()
 
-                Text("\(product.price) \(product.currency)")
+                Text("\(product.price) kr")
                     .font(.title3)
 
                 Button(action: {}) {
-                    Text("Buy now")
+                    Text("Köp nu")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
+                        .background(Color.traderaGreen)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -45,8 +45,8 @@ struct ProductDetailView: View {
                 Button(action: onToggleFavorite) {
                     HStack {
                         Image(systemName: isFavorite ? "heart.fill" : "heart")
-                            .foregroundStyle(isFavorite ? .red : .primary)
-                        Text(isFavorite ? "Remove from favorites" : "Add to favorites")
+                            .foregroundStyle(isFavorite ? Color.traderaRed : Color.traderaInk)
+                        Text(isFavorite ? "Ta bort från bevakade" : "Bevaka")
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -66,7 +66,7 @@ struct ProductDetailView: View {
                     .font(.title2)
                     .foregroundColor(.gray)
             }
-            .accessibilityLabel("Close")
+            .accessibilityLabel("Stäng")
             .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
