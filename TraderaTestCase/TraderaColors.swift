@@ -14,6 +14,6 @@ extension Color {
     /// Traderas röda. Används sparsamt, bara som accent. #DA3530
     static let traderaRed = Color(red: 0.855, green: 0.208, blue: 0.188)
 
-    /// Ljus bakgrund bakom korten. #F7F7F7
-    static let traderaBackground = Color(red: 0.969, green: 0.969, blue: 0.969)
+    /// Ljus bakgrund bakom korten. Traderagrönt uttunnat till 15 % mot vitt. #D9E2DF
+    static let traderaBackground = Color(red: 0.851, green: 0.886, blue: 0.875)
 }
