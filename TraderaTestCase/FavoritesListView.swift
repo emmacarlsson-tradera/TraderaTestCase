@@ -40,7 +40,12 @@ struct FavoritesListView: View {
                     )
                 }
             }
-            .navigationTitle("Bevakade")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    TraderaLogo()
+                }
+            }
             .sheet(item: $selectedProduct) { product in
                 ProductDetailView(
                     product: product,

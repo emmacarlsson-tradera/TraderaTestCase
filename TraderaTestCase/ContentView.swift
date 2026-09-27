@@ -51,7 +51,13 @@ struct ContentView: View {
                     .padding(.top, 8)
                 }
                 .background(Color.traderaBackground)
-                .navigationTitle("Produkter")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    // Loggan ersätter textrubriken högst upp på startsidan.
+                    ToolbarItem(placement: .principal) {
+                        TraderaLogo()
+                    }
+                }
                 .searchable(text: $searchText, prompt: "Sök bland produkter")
                 // Fetches the products from the API as soon as the view appears.
                 .task {
