@@ -33,6 +33,13 @@ struct ContentView: View {
             // Displays each product as a card in a two column grid.
             NavigationStack {
                 ScrollView {
+                    Text("Produkter")
+                        .font(.headline)
+                        .foregroundStyle(Color.traderaInk)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 14)
+                        .accessibilityAddTraits(.isHeader)
+
                     LazyVGrid(columns: columns, spacing: 18) {
                         ForEach(filteredProducts) { product in
                             ProductCardView(
@@ -53,12 +60,22 @@ struct ContentView: View {
                 .background(Color.traderaBackground)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    // Loggan ersätter textrubriken högst upp på startsidan.
+                    // Loggan visas i navigeringslisten, ovanför rubriken.
                     ToolbarItem(placement: .principal) {
-                        TraderaLogo()
+                        VStack(spacing: 10) {
+                            TraderaLogo()
+                            Divider()
+                                .frame(width: 300)
+                        }
+                        .padding(.bottom, 10)
                     }
                 }
-                .searchable(text: $searchText, prompt: "Sök bland produkter")
+                .searchable(
+                    text: $searchText,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: "Sök bland produkter"
+                )
+
                 // Fetches the products from the API as soon as the view appears.
                 .task {
                     await viewModel.fetchProducts()

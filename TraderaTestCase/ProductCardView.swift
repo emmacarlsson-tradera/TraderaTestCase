@@ -35,13 +35,13 @@ struct ProductCardView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 Text(product.title)
-                    .font(.system(size: 14))
+                    .font(.subheadline) 
                     .foregroundStyle(Color.traderaGray)
                     .lineLimit(2)
                     .padding(.top, 8)
 
                 Text("\(product.price) kr")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.callout.weight(.semibold))
                     .foregroundStyle(Color.traderaInk)
                     .padding(.top, 2)
             }
@@ -60,7 +60,7 @@ struct ProductCardView: View {
             }
             .buttonStyle(.plain)
             .padding(7)
-            .accessibilityLabel(isFavorite ? "Ta bort från bevakade" : "Bevaka")
+            .accessibilityLabel(isFavorite ? "Ta bort \(product.title) från bevakade" : "Bevaka \(product.title)")
         }
     }
 }
