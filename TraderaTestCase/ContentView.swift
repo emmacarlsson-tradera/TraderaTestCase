@@ -1,35 +1,74 @@
-//
-//  ContentView.swift
-//  TraderaTestCase
-//
-//  Created by Emma Karlsson on 2026-09-21.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     // The main screen: fetches and displays the product list.
     @StateObject private var viewModel = ProductsViewModel()
-    
+
     @State private var selectedProduct: Product?
+    @State private var searchText = ""
+
+    // Defines a two-column grid layout for displaying products.
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
+    // Provides a filtered list of products based on the search text.
+    private var filteredProducts: [Product] {
+        guard !searchText.isEmpty else { return viewModel.products }
+        return viewModel.products.filter {
+            $0.title.localizedCaseInsensitiveContains(searchText)
+        }
+    }
 
     var body: some View {
         TabView {
-            // Displays each product as a row (image, title, price, favorite button).
+            // Displays each product as a card in a two column grid.
             NavigationStack {
-                List(viewModel.products) { product in
-                    ProductRowView(
-                        product: product,
-                        isFavorite: viewModel.isFavorite(product),
-                        onToggleFavorite: {
-                            viewModel.toggleFavorite(for: product)
-                        },
-                        onSelect: {
-                            selectedProduct = product
+                ScrollView {
+                    Text("Produkter")
+                        .font(.headline)
+                        .foregroundStyle(Color.traderaInk)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 14)
+                        .accessibilityAddTraits(.isHeader)
+
+                    LazyVGrid(columns: columns, spacing: 18) {
+                        ForEach(filteredProducts) { product in
+                            ProductCardView(
+                                product: product,
+                                isFavorite: viewModel.isFavorite(product),
+                                onToggleFavorite: {
+                                    viewModel.toggleFavorite(for: product)
+                                },
+                                onSelect: {
+                                    selectedProduct = product
+                                }
+                            )
                         }
-                    )
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.top, 8)
                 }
-                .navigationTitle("Products")
+                .background(Color.traderaBackground)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    // The Tradera logo is displayed in the navigation bar.
+                    ToolbarItem(placement: .principal) {
+                        VStack(spacing: 10) {
+                            TraderaLogo()
+                            Divider()
+                                .frame(width: 300)
+                        }
+                        .padding(.bottom, 10)
+                    }
+                }
+                .searchable(
+                    text: $searchText,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: "Sök bland produkter"
+                )
+
                 // Fetches the products from the API as soon as the view appears.
                 .task {
                     await viewModel.fetchProducts()
@@ -49,14 +88,16 @@ struct ContentView: View {
 
             }
             .tabItem {
-                Label("Products", systemImage: "list.bullet")
+                Label("Produkter", systemImage: "square.grid.2x2")
             }
 
             FavoritesListView(viewModel: viewModel)
                 .tabItem {
-                    Label("Favorites", systemImage: "heart")
+                    Label("Bevakade", systemImage: "heart")
                 }
         }
+        // Sets the accent color for the tab bar and other interactive elements to Tradera's ink color.
+        .tint(Color.traderaInk)
     }
 }
 
