@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  TraderaTestCase
-//
-//  Created by Emma Karlsson on 2026-09-21.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -14,13 +7,13 @@ struct ContentView: View {
     @State private var selectedProduct: Product?
     @State private var searchText = ""
 
-    // Två lika breda kolumner med 12 punkters mellanrum.
+    // Defines a two-column grid layout for displaying products.
     private let columns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)
     ]
 
-    // Produkterna som matchar sökfältet. Tomt sökfält betyder alla.
+    // Provides a filtered list of products based on the search text.
     private var filteredProducts: [Product] {
         guard !searchText.isEmpty else { return viewModel.products }
         return viewModel.products.filter {
@@ -60,7 +53,7 @@ struct ContentView: View {
                 .background(Color.traderaBackground)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    // Loggan visas i navigeringslisten, ovanför rubriken.
+                    // The Tradera logo is displayed in the navigation bar.
                     ToolbarItem(placement: .principal) {
                         VStack(spacing: 10) {
                             TraderaLogo()
@@ -103,7 +96,7 @@ struct ContentView: View {
                     Label("Bevakade", systemImage: "heart")
                 }
         }
-        // Ersätter iOS-blå i markerad flik och sökfält med Traderas nästan-svarta.
+        // Sets the accent color for the tab bar and other interactive elements to Tradera's ink color.
         .tint(Color.traderaInk)
     }
 }

@@ -1,10 +1,3 @@
-//
-//  Product.swift
-//  TraderaTestCase
-//
-//  Created by Emma Karlsson on 2026-09-21.
-//
-
 struct Product: Identifiable, Codable {
     let id: Int
     let title: String

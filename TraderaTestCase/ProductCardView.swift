@@ -1,6 +1,7 @@
 import SwiftUI
 
-// Ett produktkort i rutnätet: bild, hjärta, titel och pris.
+// A view that displays a product card with an image, title, price, and a heart button to toggle the favorite status.
+//  Tapping the card triggers the onSelect action to view product details.
 struct ProductCardView: View {
     let product: Product
     let isFavorite: Bool
@@ -8,11 +9,11 @@ struct ProductCardView: View {
     let onSelect: () -> Void
 
     var body: some View {
-        // Hela kortet är knappen som öppnar detaljvyn.
+        // The entire card is a button that triggers the onSelect action when tapped, allowing the user to view product details.
         Button(action: onSelect) {
             VStack(alignment: .leading, spacing: 0) {
-                // Kvadratisk vit yta som bilden ligger i, så att alla kort blir lika höga
-                // oavsett om omslaget är stående eller liggande.
+                // The product image is displayed in a square aspect ratio, with a background color and rounded corners. 
+                // An AsyncImage is used to load the image from the provided URL, showing a placeholder or progress view while loading.
                 Color.traderaSurface
                     .aspectRatio(1, contentMode: .fit)
                     .overlay {
@@ -49,8 +50,8 @@ struct ProductCardView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        // Hjärtat läggs ovanpå som ett syskon till knappen, inte inuti den.
-        // Annars konkurrerar de två knapparna om samma tryck.
+        // The heart button is overlaid on top of the product card, aligned to the top right corner. 
+        // It toggles the favorite status of the product.
         .overlay(alignment: .topTrailing) {
             Button(action: onToggleFavorite) {
                 Image(systemName: isFavorite ? "heart.fill" : "heart")

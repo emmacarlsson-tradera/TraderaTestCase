@@ -52,7 +52,7 @@ struct ProductDetailView: View {
                     .padding()
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+                            .stroke(Color.traderaGray.opacity(0.4), lineWidth: 1)
                     )
                 }
                 .padding(.horizontal)
@@ -64,7 +64,7 @@ struct ProductDetailView: View {
             Button(action: { dismiss() }) {
                 Image(systemName: "xmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.traderaGray)
             }
             .accessibilityLabel("Stäng")
             .padding()
